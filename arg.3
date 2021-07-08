@@ -1,0 +1,133 @@
+.\" .Dd Jul 8, 2021
+.\" .Dt HI 1
+.\" .Os
+.TH ARG 3
+.SH NAME
+ARGBEGIN, ARGEND, ARGC, ARGF, EARGF \- process option letters from argv
+.SH SYNOPSIS
+.B #include "arg.h"
+.PP
+.nf
+.B ARGBEGIN {
+.B char *ARGF();
+.B char *EARGF(code);
+.B char ARGC();
+.B } ARGEND
+.PP
+.B extern char *argv0;
+.SH DESCRIPTION
+These macros assume the names
+.I argc
+and
+.I argv
+are in scope.
+.I ARGBEGIN
+and
+.I ARGEND
+surround code for processing program options.
+The code should be the cases of a C switch on option characters;
+it is executed once for each option character.
+Options end after an argument
+.BR -- ,
+before an argument
+.BR - ,
+or before an argument that doesn't begin with
+.BR - .
+.PP
+The function macro
+.I ARGC
+returns the current option character, as an integer.
+.PP
+The function macro
+.I ARGF
+returns the current option argument:
+a pointer to the rest of the option string if not empty,
+or the next argument in
+.I argv
+if any, or 0.
+.I ARGF
+must be called just once for each option argument.
+The macro
+.I EARGF
+is like
+.I ARGF
+but instead of returning zero runs
+.I code
+and, if that returns, calls
+.IR exit (2).
+A typical value for
+.I code
+is
+.BR usage() ,
+as in
+.BR EARGF(usage()) .
+.PP
+After
+.IR ARGBEGIN ,
+.I argv0
+is a copy of
+.BR argv[0]
+(conventionally the name of the program).
+.PP
+After
+.IR ARGEND ,
+.I argv
+points at a zero-terminated list of the remaining
+.I argc
+arguments.
+.SH EXAMPLE
+This C program can take option
+.B b
+and option
+.BR f ,
+which requires an argument.
+.IP
+.EX
+.ta \w'12345678'u +\w'12345678'u +\w'12345678'u +\w'12345678'u +\w'12345678'u
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "arg.h"
+
+char *argv0;
+
+int
+main(int argc, char *argv[])
+{
+	char *f;
+
+	printf("%s", argv[0]);
+
+	ARGBEGIN {
+	case 'b':
+		printf(" -b");
+		break;
+	case 'f':
+		printf(" -f(%s)", (f=ARGF())? f: "no arg");
+		break;
+	default:
+		printf(" badflag('%c')", ARGC());
+	} ARGEND
+
+	printf(" %d args:", argc);
+
+	while (*argv)
+		printf(" '%s'", *argv++);
+	printf("\n");
+
+	exit(EXIT_SUCCESS);
+}
+.EE
+.PP
+Here is the output from running the command
+.B
+prog -bffile1 -r -f file2 arg1 arg2
+.IP
+.B
+prog -b -f(file1) badflag('r') -f(file2) 2 args: 'arg1' 'arg2'
+.PP
+.SH SEE ALSO
+.IR getopt (1) ,
+.IR getopt (8) ,
+.IR getopt_long (3) ,
+.IR getsubopt (3)
