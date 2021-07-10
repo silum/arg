@@ -6,6 +6,13 @@ ex: ex.o
 .PHONY: all
 all: $(BIN)
 
+check: ex
+	@./test.sh
+	@echo
+	@echo ================
+	@echo all tests passed
+	@echo ================
+
 .PHONY: clean
 clean:
 	$(RM) -- $(BIN) *.o *.d
