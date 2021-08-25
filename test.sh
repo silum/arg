@@ -207,190 +207,190 @@ for arg in \
     "--f x arg"
 do
     printf "% 16s: " "'$arg'"
-    ./ex $arg 2>&1
+    ./prog $arg 2>&1
 done | cmp -s /dev/stdin /dev/stderr 2<<EOT
-              '': ./ex 0 args:
-             '-': ./ex 1 args: '-'
-            '--': ./ex 0 args:
-            '-b': ./ex -b 0 args:
-            '-f': ./ex -f(no arg) 0 args:
-          '-f x': ./ex -f(x) 0 args:
-           'arg': ./ex 1 args: 'arg'
-          '- --': ./ex 2 args: '-' '--'
-          '- -b': ./ex 2 args: '-' '-b'
-          '- -f': ./ex 2 args: '-' '-f'
-        '- -f x': ./ex 3 args: '-' '-f' 'x'
-         '- arg': ./ex 2 args: '-' 'arg'
-          '-- -': ./ex 1 args: '-'
-         '-- -b': ./ex 1 args: '-b'
-         '-- -f': ./ex 1 args: '-f'
-       '-- -f x': ./ex 2 args: '-f' 'x'
-        '-- arg': ./ex 1 args: 'arg'
-          '-b -': ./ex -b 1 args: '-'
-         '-b --': ./ex -b 0 args:
-         '-b -f': ./ex -b -f(no arg) 0 args:
-       '-b -f x': ./ex -b -f(x) 0 args:
-        '-b arg': ./ex -b 1 args: 'arg'
-          '-f -': ./ex -f(-) 0 args:
-         '-f --': ./ex -f(--) 0 args:
-         '-f -b': ./ex -f(-b) 0 args:
-       '-f -f x': ./ex -f(-f) 1 args: 'x'
-        '-f arg': ./ex -f(arg) 0 args:
-        '-f x -': ./ex -f(x) 1 args: '-'
-       '-f x --': ./ex -f(x) 0 args:
-       '-f x -b': ./ex -f(x) -b 0 args:
-       '-f x -f': ./ex -f(x) -f(no arg) 0 args:
-      '-f x arg': ./ex -f(x) 1 args: 'arg'
-         'arg -': ./ex 2 args: 'arg' '-'
-        'arg --': ./ex 2 args: 'arg' '--'
-        'arg -b': ./ex 2 args: 'arg' '-b'
-        'arg -f': ./ex 2 args: 'arg' '-f'
-      'arg -f x': ./ex 3 args: 'arg' '-f' 'x'
-       '- -- -b': ./ex 3 args: '-' '--' '-b'
-       '- -- -f': ./ex 3 args: '-' '--' '-f'
-     '- -- -f x': ./ex 4 args: '-' '--' '-f' 'x'
-      '- -- arg': ./ex 3 args: '-' '--' 'arg'
-       '- -b --': ./ex 3 args: '-' '-b' '--'
-       '- -b -f': ./ex 3 args: '-' '-b' '-f'
-     '- -b -f x': ./ex 4 args: '-' '-b' '-f' 'x'
-      '- -b arg': ./ex 3 args: '-' '-b' 'arg'
-       '- -f --': ./ex 3 args: '-' '-f' '--'
-       '- -f -b': ./ex 3 args: '-' '-f' '-b'
-     '- -f -f x': ./ex 4 args: '-' '-f' '-f' 'x'
-      '- -f arg': ./ex 3 args: '-' '-f' 'arg'
-     '- -f x --': ./ex 4 args: '-' '-f' 'x' '--'
-     '- -f x -b': ./ex 4 args: '-' '-f' 'x' '-b'
-     '- -f x -f': ./ex 4 args: '-' '-f' 'x' '-f'
-    '- -f x arg': ./ex 4 args: '-' '-f' 'x' 'arg'
-      '- arg --': ./ex 3 args: '-' 'arg' '--'
-      '- arg -b': ./ex 3 args: '-' 'arg' '-b'
-      '- arg -f': ./ex 3 args: '-' 'arg' '-f'
-    '- arg -f x': ./ex 4 args: '-' 'arg' '-f' 'x'
-       '-- - -b': ./ex 2 args: '-' '-b'
-       '-- - -f': ./ex 2 args: '-' '-f'
-     '-- - -f x': ./ex 3 args: '-' '-f' 'x'
-      '-- - arg': ./ex 2 args: '-' 'arg'
-       '-- -b -': ./ex 2 args: '-b' '-'
-      '-- -b -f': ./ex 2 args: '-b' '-f'
-    '-- -b -f x': ./ex 3 args: '-b' '-f' 'x'
-     '-- -b arg': ./ex 2 args: '-b' 'arg'
-       '-- -f -': ./ex 2 args: '-f' '-'
-      '-- -f -b': ./ex 2 args: '-f' '-b'
-    '-- -f -f x': ./ex 3 args: '-f' '-f' 'x'
-     '-- -f arg': ./ex 2 args: '-f' 'arg'
-     '-- -f x -': ./ex 3 args: '-f' 'x' '-'
-    '-- -f x -b': ./ex 3 args: '-f' 'x' '-b'
-    '-- -f x -f': ./ex 3 args: '-f' 'x' '-f'
-   '-- -f x arg': ./ex 3 args: '-f' 'x' 'arg'
-      '-- arg -': ./ex 2 args: 'arg' '-'
-     '-- arg -b': ./ex 2 args: 'arg' '-b'
-     '-- arg -f': ./ex 2 args: 'arg' '-f'
-   '-- arg -f x': ./ex 3 args: 'arg' '-f' 'x'
-       '-b - --': ./ex -b 2 args: '-' '--'
-       '-b - -f': ./ex -b 2 args: '-' '-f'
-     '-b - -f x': ./ex -b 3 args: '-' '-f' 'x'
-      '-b - arg': ./ex -b 2 args: '-' 'arg'
-       '-b -- -': ./ex -b 1 args: '-'
-      '-b -- -f': ./ex -b 1 args: '-f'
-    '-b -- -f x': ./ex -b 2 args: '-f' 'x'
-     '-b -- arg': ./ex -b 1 args: 'arg'
-       '-b -f -': ./ex -b -f(-) 0 args:
-      '-b -f --': ./ex -b -f(--) 0 args:
-    '-b -f -f x': ./ex -b -f(-f) 1 args: 'x'
-     '-b -f arg': ./ex -b -f(arg) 0 args:
-     '-b -f x -': ./ex -b -f(x) 1 args: '-'
-    '-b -f x --': ./ex -b -f(x) 0 args:
-    '-b -f x -f': ./ex -b -f(x) -f(no arg) 0 args:
-   '-b -f x arg': ./ex -b -f(x) 1 args: 'arg'
-      '-b arg -': ./ex -b 2 args: 'arg' '-'
-     '-b arg --': ./ex -b 2 args: 'arg' '--'
-     '-b arg -f': ./ex -b 2 args: 'arg' '-f'
-   '-b arg -f x': ./ex -b 3 args: 'arg' '-f' 'x'
-       '-f - --': ./ex -f(-) 0 args:
-       '-f - -b': ./ex -f(-) -b 0 args:
-     '-f - -f x': ./ex -f(-) -f(x) 0 args:
-      '-f - arg': ./ex -f(-) 1 args: 'arg'
-       '-f -- -': ./ex -f(--) 1 args: '-'
-      '-f -- -b': ./ex -f(--) -b 0 args:
-    '-f -- -f x': ./ex -f(--) -f(x) 0 args:
-     '-f -- arg': ./ex -f(--) 1 args: 'arg'
-       '-f -b -': ./ex -f(-b) 1 args: '-'
-      '-f -b --': ./ex -f(-b) 0 args:
-    '-f -b -f x': ./ex -f(-b) -f(x) 0 args:
-     '-f -b arg': ./ex -f(-b) 1 args: 'arg'
-     '-f -f x -': ./ex -f(-f) 2 args: 'x' '-'
-    '-f -f x --': ./ex -f(-f) 2 args: 'x' '--'
-    '-f -f x -b': ./ex -f(-f) 2 args: 'x' '-b'
-   '-f -f x arg': ./ex -f(-f) 2 args: 'x' 'arg'
-      '-f arg -': ./ex -f(arg) 1 args: '-'
-     '-f arg --': ./ex -f(arg) 0 args:
-     '-f arg -b': ./ex -f(arg) -b 0 args:
-   '-f arg -f x': ./ex -f(arg) -f(x) 0 args:
-     '-f x - --': ./ex -f(x) 2 args: '-' '--'
-     '-f x - -b': ./ex -f(x) 2 args: '-' '-b'
-     '-f x - -f': ./ex -f(x) 2 args: '-' '-f'
-    '-f x - arg': ./ex -f(x) 2 args: '-' 'arg'
-     '-f x -- -': ./ex -f(x) 1 args: '-'
-    '-f x -- -b': ./ex -f(x) 1 args: '-b'
-    '-f x -- -f': ./ex -f(x) 1 args: '-f'
-   '-f x -- arg': ./ex -f(x) 1 args: 'arg'
-     '-f x -b -': ./ex -f(x) -b 1 args: '-'
-    '-f x -b --': ./ex -f(x) -b 0 args:
-    '-f x -b -f': ./ex -f(x) -b -f(no arg) 0 args:
-   '-f x -b arg': ./ex -f(x) -b 1 args: 'arg'
-     '-f x -f -': ./ex -f(x) -f(-) 0 args:
-    '-f x -f --': ./ex -f(x) -f(--) 0 args:
-    '-f x -f -b': ./ex -f(x) -f(-b) 0 args:
-   '-f x -f arg': ./ex -f(x) -f(arg) 0 args:
-    '-f x arg -': ./ex -f(x) 2 args: 'arg' '-'
-   '-f x arg --': ./ex -f(x) 2 args: 'arg' '--'
-   '-f x arg -b': ./ex -f(x) 2 args: 'arg' '-b'
-   '-f x arg -f': ./ex -f(x) 2 args: 'arg' '-f'
-      'arg - --': ./ex 3 args: 'arg' '-' '--'
-      'arg - -b': ./ex 3 args: 'arg' '-' '-b'
-      'arg - -f': ./ex 3 args: 'arg' '-' '-f'
-    'arg - -f x': ./ex 4 args: 'arg' '-' '-f' 'x'
-      'arg -- -': ./ex 3 args: 'arg' '--' '-'
-     'arg -- -b': ./ex 3 args: 'arg' '--' '-b'
-     'arg -- -f': ./ex 3 args: 'arg' '--' '-f'
-   'arg -- -f x': ./ex 4 args: 'arg' '--' '-f' 'x'
-      'arg -b -': ./ex 3 args: 'arg' '-b' '-'
-     'arg -b --': ./ex 3 args: 'arg' '-b' '--'
-     'arg -b -f': ./ex 3 args: 'arg' '-b' '-f'
-   'arg -b -f x': ./ex 4 args: 'arg' '-b' '-f' 'x'
-      'arg -f -': ./ex 3 args: 'arg' '-f' '-'
-     'arg -f --': ./ex 3 args: 'arg' '-f' '--'
-     'arg -f -b': ./ex 3 args: 'arg' '-f' '-b'
-   'arg -f -f x': ./ex 4 args: 'arg' '-f' '-f' 'x'
-    'arg -f x -': ./ex 4 args: 'arg' '-f' 'x' '-'
-   'arg -f x --': ./ex 4 args: 'arg' '-f' 'x' '--'
-   'arg -f x -b': ./ex 4 args: 'arg' '-f' 'x' '-b'
-   'arg -f x -f': ./ex 4 args: 'arg' '-f' 'x' '-f'
-              '': ./ex 0 args:
-           '---': ./ex badflag('-') badflag('-') 0 args:
-           '--b': ./ex badflag('-') -b 0 args:
-           '--f': ./ex badflag('-') -f(no arg) 0 args:
-         '--f x': ./ex badflag('-') -f(x) 0 args:
-        '--- --': ./ex badflag('-') badflag('-') 0 args:
-       '--- --b': ./ex badflag('-') badflag('-') badflag('-') -b 0 args:
-       '--- --f': ./ex badflag('-') badflag('-') badflag('-') -f(no arg) 0 args:
-     '--- --f x': ./ex badflag('-') badflag('-') badflag('-') -f(x) 0 args:
-       '--- arg': ./ex badflag('-') badflag('-') 1 args: 'arg'
-        '--b --': ./ex badflag('-') -b 0 args:
-       '--b ---': ./ex badflag('-') -b badflag('-') badflag('-') 0 args:
-       '--b --f': ./ex badflag('-') -b badflag('-') -f(no arg) 0 args:
-     '--b --f x': ./ex badflag('-') -b badflag('-') -f(x) 0 args:
-       '--b arg': ./ex badflag('-') -b 1 args: 'arg'
-        '--f --': ./ex badflag('-') -f(--) 0 args:
-       '--f ---': ./ex badflag('-') -f(---) 0 args:
-       '--f --b': ./ex badflag('-') -f(--b) 0 args:
-     '--f --f x': ./ex badflag('-') -f(--f) 1 args: 'x'
-       '--f arg': ./ex badflag('-') -f(arg) 0 args:
-      '--f x --': ./ex badflag('-') -f(x) 0 args:
-     '--f x ---': ./ex badflag('-') -f(x) badflag('-') badflag('-') 0 args:
-     '--f x --b': ./ex badflag('-') -f(x) badflag('-') -b 0 args:
-     '--f x --f': ./ex badflag('-') -f(x) badflag('-') -f(no arg) 0 args:
-     '--f x arg': ./ex badflag('-') -f(x) 1 args: 'arg'
+              '': ./prog 0 args:
+             '-': ./prog 1 args: '-'
+            '--': ./prog 0 args:
+            '-b': ./prog -b 0 args:
+            '-f': ./prog -f(no arg) 0 args:
+          '-f x': ./prog -f(x) 0 args:
+           'arg': ./prog 1 args: 'arg'
+          '- --': ./prog 2 args: '-' '--'
+          '- -b': ./prog 2 args: '-' '-b'
+          '- -f': ./prog 2 args: '-' '-f'
+        '- -f x': ./prog 3 args: '-' '-f' 'x'
+         '- arg': ./prog 2 args: '-' 'arg'
+          '-- -': ./prog 1 args: '-'
+         '-- -b': ./prog 1 args: '-b'
+         '-- -f': ./prog 1 args: '-f'
+       '-- -f x': ./prog 2 args: '-f' 'x'
+        '-- arg': ./prog 1 args: 'arg'
+          '-b -': ./prog -b 1 args: '-'
+         '-b --': ./prog -b 0 args:
+         '-b -f': ./prog -b -f(no arg) 0 args:
+       '-b -f x': ./prog -b -f(x) 0 args:
+        '-b arg': ./prog -b 1 args: 'arg'
+          '-f -': ./prog -f(-) 0 args:
+         '-f --': ./prog -f(--) 0 args:
+         '-f -b': ./prog -f(-b) 0 args:
+       '-f -f x': ./prog -f(-f) 1 args: 'x'
+        '-f arg': ./prog -f(arg) 0 args:
+        '-f x -': ./prog -f(x) 1 args: '-'
+       '-f x --': ./prog -f(x) 0 args:
+       '-f x -b': ./prog -f(x) -b 0 args:
+       '-f x -f': ./prog -f(x) -f(no arg) 0 args:
+      '-f x arg': ./prog -f(x) 1 args: 'arg'
+         'arg -': ./prog 2 args: 'arg' '-'
+        'arg --': ./prog 2 args: 'arg' '--'
+        'arg -b': ./prog 2 args: 'arg' '-b'
+        'arg -f': ./prog 2 args: 'arg' '-f'
+      'arg -f x': ./prog 3 args: 'arg' '-f' 'x'
+       '- -- -b': ./prog 3 args: '-' '--' '-b'
+       '- -- -f': ./prog 3 args: '-' '--' '-f'
+     '- -- -f x': ./prog 4 args: '-' '--' '-f' 'x'
+      '- -- arg': ./prog 3 args: '-' '--' 'arg'
+       '- -b --': ./prog 3 args: '-' '-b' '--'
+       '- -b -f': ./prog 3 args: '-' '-b' '-f'
+     '- -b -f x': ./prog 4 args: '-' '-b' '-f' 'x'
+      '- -b arg': ./prog 3 args: '-' '-b' 'arg'
+       '- -f --': ./prog 3 args: '-' '-f' '--'
+       '- -f -b': ./prog 3 args: '-' '-f' '-b'
+     '- -f -f x': ./prog 4 args: '-' '-f' '-f' 'x'
+      '- -f arg': ./prog 3 args: '-' '-f' 'arg'
+     '- -f x --': ./prog 4 args: '-' '-f' 'x' '--'
+     '- -f x -b': ./prog 4 args: '-' '-f' 'x' '-b'
+     '- -f x -f': ./prog 4 args: '-' '-f' 'x' '-f'
+    '- -f x arg': ./prog 4 args: '-' '-f' 'x' 'arg'
+      '- arg --': ./prog 3 args: '-' 'arg' '--'
+      '- arg -b': ./prog 3 args: '-' 'arg' '-b'
+      '- arg -f': ./prog 3 args: '-' 'arg' '-f'
+    '- arg -f x': ./prog 4 args: '-' 'arg' '-f' 'x'
+       '-- - -b': ./prog 2 args: '-' '-b'
+       '-- - -f': ./prog 2 args: '-' '-f'
+     '-- - -f x': ./prog 3 args: '-' '-f' 'x'
+      '-- - arg': ./prog 2 args: '-' 'arg'
+       '-- -b -': ./prog 2 args: '-b' '-'
+      '-- -b -f': ./prog 2 args: '-b' '-f'
+    '-- -b -f x': ./prog 3 args: '-b' '-f' 'x'
+     '-- -b arg': ./prog 2 args: '-b' 'arg'
+       '-- -f -': ./prog 2 args: '-f' '-'
+      '-- -f -b': ./prog 2 args: '-f' '-b'
+    '-- -f -f x': ./prog 3 args: '-f' '-f' 'x'
+     '-- -f arg': ./prog 2 args: '-f' 'arg'
+     '-- -f x -': ./prog 3 args: '-f' 'x' '-'
+    '-- -f x -b': ./prog 3 args: '-f' 'x' '-b'
+    '-- -f x -f': ./prog 3 args: '-f' 'x' '-f'
+   '-- -f x arg': ./prog 3 args: '-f' 'x' 'arg'
+      '-- arg -': ./prog 2 args: 'arg' '-'
+     '-- arg -b': ./prog 2 args: 'arg' '-b'
+     '-- arg -f': ./prog 2 args: 'arg' '-f'
+   '-- arg -f x': ./prog 3 args: 'arg' '-f' 'x'
+       '-b - --': ./prog -b 2 args: '-' '--'
+       '-b - -f': ./prog -b 2 args: '-' '-f'
+     '-b - -f x': ./prog -b 3 args: '-' '-f' 'x'
+      '-b - arg': ./prog -b 2 args: '-' 'arg'
+       '-b -- -': ./prog -b 1 args: '-'
+      '-b -- -f': ./prog -b 1 args: '-f'
+    '-b -- -f x': ./prog -b 2 args: '-f' 'x'
+     '-b -- arg': ./prog -b 1 args: 'arg'
+       '-b -f -': ./prog -b -f(-) 0 args:
+      '-b -f --': ./prog -b -f(--) 0 args:
+    '-b -f -f x': ./prog -b -f(-f) 1 args: 'x'
+     '-b -f arg': ./prog -b -f(arg) 0 args:
+     '-b -f x -': ./prog -b -f(x) 1 args: '-'
+    '-b -f x --': ./prog -b -f(x) 0 args:
+    '-b -f x -f': ./prog -b -f(x) -f(no arg) 0 args:
+   '-b -f x arg': ./prog -b -f(x) 1 args: 'arg'
+      '-b arg -': ./prog -b 2 args: 'arg' '-'
+     '-b arg --': ./prog -b 2 args: 'arg' '--'
+     '-b arg -f': ./prog -b 2 args: 'arg' '-f'
+   '-b arg -f x': ./prog -b 3 args: 'arg' '-f' 'x'
+       '-f - --': ./prog -f(-) 0 args:
+       '-f - -b': ./prog -f(-) -b 0 args:
+     '-f - -f x': ./prog -f(-) -f(x) 0 args:
+      '-f - arg': ./prog -f(-) 1 args: 'arg'
+       '-f -- -': ./prog -f(--) 1 args: '-'
+      '-f -- -b': ./prog -f(--) -b 0 args:
+    '-f -- -f x': ./prog -f(--) -f(x) 0 args:
+     '-f -- arg': ./prog -f(--) 1 args: 'arg'
+       '-f -b -': ./prog -f(-b) 1 args: '-'
+      '-f -b --': ./prog -f(-b) 0 args:
+    '-f -b -f x': ./prog -f(-b) -f(x) 0 args:
+     '-f -b arg': ./prog -f(-b) 1 args: 'arg'
+     '-f -f x -': ./prog -f(-f) 2 args: 'x' '-'
+    '-f -f x --': ./prog -f(-f) 2 args: 'x' '--'
+    '-f -f x -b': ./prog -f(-f) 2 args: 'x' '-b'
+   '-f -f x arg': ./prog -f(-f) 2 args: 'x' 'arg'
+      '-f arg -': ./prog -f(arg) 1 args: '-'
+     '-f arg --': ./prog -f(arg) 0 args:
+     '-f arg -b': ./prog -f(arg) -b 0 args:
+   '-f arg -f x': ./prog -f(arg) -f(x) 0 args:
+     '-f x - --': ./prog -f(x) 2 args: '-' '--'
+     '-f x - -b': ./prog -f(x) 2 args: '-' '-b'
+     '-f x - -f': ./prog -f(x) 2 args: '-' '-f'
+    '-f x - arg': ./prog -f(x) 2 args: '-' 'arg'
+     '-f x -- -': ./prog -f(x) 1 args: '-'
+    '-f x -- -b': ./prog -f(x) 1 args: '-b'
+    '-f x -- -f': ./prog -f(x) 1 args: '-f'
+   '-f x -- arg': ./prog -f(x) 1 args: 'arg'
+     '-f x -b -': ./prog -f(x) -b 1 args: '-'
+    '-f x -b --': ./prog -f(x) -b 0 args:
+    '-f x -b -f': ./prog -f(x) -b -f(no arg) 0 args:
+   '-f x -b arg': ./prog -f(x) -b 1 args: 'arg'
+     '-f x -f -': ./prog -f(x) -f(-) 0 args:
+    '-f x -f --': ./prog -f(x) -f(--) 0 args:
+    '-f x -f -b': ./prog -f(x) -f(-b) 0 args:
+   '-f x -f arg': ./prog -f(x) -f(arg) 0 args:
+    '-f x arg -': ./prog -f(x) 2 args: 'arg' '-'
+   '-f x arg --': ./prog -f(x) 2 args: 'arg' '--'
+   '-f x arg -b': ./prog -f(x) 2 args: 'arg' '-b'
+   '-f x arg -f': ./prog -f(x) 2 args: 'arg' '-f'
+      'arg - --': ./prog 3 args: 'arg' '-' '--'
+      'arg - -b': ./prog 3 args: 'arg' '-' '-b'
+      'arg - -f': ./prog 3 args: 'arg' '-' '-f'
+    'arg - -f x': ./prog 4 args: 'arg' '-' '-f' 'x'
+      'arg -- -': ./prog 3 args: 'arg' '--' '-'
+     'arg -- -b': ./prog 3 args: 'arg' '--' '-b'
+     'arg -- -f': ./prog 3 args: 'arg' '--' '-f'
+   'arg -- -f x': ./prog 4 args: 'arg' '--' '-f' 'x'
+      'arg -b -': ./prog 3 args: 'arg' '-b' '-'
+     'arg -b --': ./prog 3 args: 'arg' '-b' '--'
+     'arg -b -f': ./prog 3 args: 'arg' '-b' '-f'
+   'arg -b -f x': ./prog 4 args: 'arg' '-b' '-f' 'x'
+      'arg -f -': ./prog 3 args: 'arg' '-f' '-'
+     'arg -f --': ./prog 3 args: 'arg' '-f' '--'
+     'arg -f -b': ./prog 3 args: 'arg' '-f' '-b'
+   'arg -f -f x': ./prog 4 args: 'arg' '-f' '-f' 'x'
+    'arg -f x -': ./prog 4 args: 'arg' '-f' 'x' '-'
+   'arg -f x --': ./prog 4 args: 'arg' '-f' 'x' '--'
+   'arg -f x -b': ./prog 4 args: 'arg' '-f' 'x' '-b'
+   'arg -f x -f': ./prog 4 args: 'arg' '-f' 'x' '-f'
+              '': ./prog 0 args:
+           '---': ./prog badflag('-') badflag('-') 0 args:
+           '--b': ./prog badflag('-') -b 0 args:
+           '--f': ./prog badflag('-') -f(no arg) 0 args:
+         '--f x': ./prog badflag('-') -f(x) 0 args:
+        '--- --': ./prog badflag('-') badflag('-') 0 args:
+       '--- --b': ./prog badflag('-') badflag('-') badflag('-') -b 0 args:
+       '--- --f': ./prog badflag('-') badflag('-') badflag('-') -f(no arg) 0 args:
+     '--- --f x': ./prog badflag('-') badflag('-') badflag('-') -f(x) 0 args:
+       '--- arg': ./prog badflag('-') badflag('-') 1 args: 'arg'
+        '--b --': ./prog badflag('-') -b 0 args:
+       '--b ---': ./prog badflag('-') -b badflag('-') badflag('-') 0 args:
+       '--b --f': ./prog badflag('-') -b badflag('-') -f(no arg) 0 args:
+     '--b --f x': ./prog badflag('-') -b badflag('-') -f(x) 0 args:
+       '--b arg': ./prog badflag('-') -b 1 args: 'arg'
+        '--f --': ./prog badflag('-') -f(--) 0 args:
+       '--f ---': ./prog badflag('-') -f(---) 0 args:
+       '--f --b': ./prog badflag('-') -f(--b) 0 args:
+     '--f --f x': ./prog badflag('-') -f(--f) 1 args: 'x'
+       '--f arg': ./prog badflag('-') -f(arg) 0 args:
+      '--f x --': ./prog badflag('-') -f(x) 0 args:
+     '--f x ---': ./prog badflag('-') -f(x) badflag('-') badflag('-') 0 args:
+     '--f x --b': ./prog badflag('-') -f(x) badflag('-') -b 0 args:
+     '--f x --f': ./prog badflag('-') -f(x) badflag('-') -f(no arg) 0 args:
+     '--f x arg': ./prog badflag('-') -f(x) 1 args: 'arg'
 EOT
 
 # -fin-

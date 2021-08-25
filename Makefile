@@ -1,12 +1,12 @@
-BIN = ex
+BIN = prog
 CFLAGS += -std=c99 -Wall -Wextra -Wpedantic
 
-ex: ex.o
+prog: prog.o
 
 .PHONY: all
 all: $(BIN)
 
-check: ex
+check: prog
 	@./test.sh
 	@echo
 	@echo ================
