@@ -43,12 +43,12 @@ extern char *argv0;
 
 #define ARGC()  argc_
 
-#define ARGF_(x) \
+#define ARGF_(expr) \
 	(((*argv)[i_ + 1]) \
 	 ? (used_ = 1, &((*argv)[i_ + 1])) \
 	 : (*(argv + 1)) \
 	   ? (used_ = 1, *(argv + 1)) \
-	   : (x))
+	   : (expr))
 #define EARGF(x)  ARGF_(((x), exit(EXIT_FAILURE), (char *)NULL))
 #define ARGF()  ARGF_((char *)NULL)
 
