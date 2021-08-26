@@ -19,201 +19,37 @@
 #     for each in permutations(arg, len):
 #         print(f'    "{" ".join(each)}" \\')
 # ```
+#
+# Some variations have been manually added to catch the odd corner case.
 
 set -e
 
-for arg in \
-    "" \
-    "-" \
-    "--" \
-    "-b" \
-    "-f" \
-    "-f x" \
-    "arg" \
-    "- --" \
-    "- -b" \
-    "- -f" \
-    "- -f x" \
-    "- arg" \
-    "-- -" \
-    "-- -b" \
-    "-- -f" \
-    "-- -f x" \
-    "-- arg" \
-    "-b -" \
-    "-b --" \
-    "-b -f" \
-    "-b -f x" \
-    "-b arg" \
-    "-f -" \
-    "-f --" \
-    "-f -b" \
-    "-f -f x" \
-    "-f arg" \
-    "-f x -" \
-    "-f x --" \
-    "-f x -b" \
-    "-f x -f" \
-    "-f x arg" \
-    "arg -" \
-    "arg --" \
-    "arg -b" \
-    "arg -f" \
-    "arg -f x" \
-    "- -- -b" \
-    "- -- -f" \
-    "- -- -f x" \
-    "- -- arg" \
-    "- -b --" \
-    "- -b -f" \
-    "- -b -f x" \
-    "- -b arg" \
-    "- -f --" \
-    "- -f -b" \
-    "- -f -f x" \
-    "- -f arg" \
-    "- -f x --" \
-    "- -f x -b" \
-    "- -f x -f" \
-    "- -f x arg" \
-    "- arg --" \
-    "- arg -b" \
-    "- arg -f" \
-    "- arg -f x" \
-    "-- - -b" \
-    "-- - -f" \
-    "-- - -f x" \
-    "-- - arg" \
-    "-- -b -" \
-    "-- -b -f" \
-    "-- -b -f x" \
-    "-- -b arg" \
-    "-- -f -" \
-    "-- -f -b" \
-    "-- -f -f x" \
-    "-- -f arg" \
-    "-- -f x -" \
-    "-- -f x -b" \
-    "-- -f x -f" \
-    "-- -f x arg" \
-    "-- arg -" \
-    "-- arg -b" \
-    "-- arg -f" \
-    "-- arg -f x" \
-    "-b - --" \
-    "-b - -f" \
-    "-b - -f x" \
-    "-b - arg" \
-    "-b -- -" \
-    "-b -- -f" \
-    "-b -- -f x" \
-    "-b -- arg" \
-    "-b -f -" \
-    "-b -f --" \
-    "-b -f -f x" \
-    "-b -f arg" \
-    "-b -f x -" \
-    "-b -f x --" \
-    "-b -f x -f" \
-    "-b -f x arg" \
-    "-b arg -" \
-    "-b arg --" \
-    "-b arg -f" \
-    "-b arg -f x" \
-    "-f - --" \
-    "-f - -b" \
-    "-f - -f x" \
-    "-f - arg" \
-    "-f -- -" \
-    "-f -- -b" \
-    "-f -- -f x" \
-    "-f -- arg" \
-    "-f -b -" \
-    "-f -b --" \
-    "-f -b -f x" \
-    "-f -b arg" \
-    "-f -f x -" \
-    "-f -f x --" \
-    "-f -f x -b" \
-    "-f -f x arg" \
-    "-f arg -" \
-    "-f arg --" \
-    "-f arg -b" \
-    "-f arg -f x" \
-    "-f x - --" \
-    "-f x - -b" \
-    "-f x - -f" \
-    "-f x - arg" \
-    "-f x -- -" \
-    "-f x -- -b" \
-    "-f x -- -f" \
-    "-f x -- arg" \
-    "-f x -b -" \
-    "-f x -b --" \
-    "-f x -b -f" \
-    "-f x -b arg" \
-    "-f x -f -" \
-    "-f x -f --" \
-    "-f x -f -b" \
-    "-f x -f arg" \
-    "-f x arg -" \
-    "-f x arg --" \
-    "-f x arg -b" \
-    "-f x arg -f" \
-    "arg - --" \
-    "arg - -b" \
-    "arg - -f" \
-    "arg - -f x" \
-    "arg -- -" \
-    "arg -- -b" \
-    "arg -- -f" \
-    "arg -- -f x" \
-    "arg -b -" \
-    "arg -b --" \
-    "arg -b -f" \
-    "arg -b -f x" \
-    "arg -f -" \
-    "arg -f --" \
-    "arg -f -b" \
-    "arg -f -f x" \
-    "arg -f x -" \
-    "arg -f x --" \
-    "arg -f x -b" \
-    "arg -f x -f" \
-    "" \
-    "---" \
-    "--b" \
-    "--f" \
-    "--f x" \
-    "--- --" \
-    "--- --b" \
-    "--- --f" \
-    "--- --f x" \
-    "--- arg" \
-    "--b --" \
-    "--b ---" \
-    "--b --f" \
-    "--b --f x" \
-    "--b arg" \
-    "--f --" \
-    "--f ---" \
-    "--f --b" \
-    "--f --f x" \
-    "--f arg" \
-    "--f x --" \
-    "--f x ---" \
-    "--f x --b" \
-    "--f x --f" \
-    "--f x arg"
+retval=0
+fin() { exit $retval; }
+trap fin EXIT
+
+run() {
+    printf "% 16s: " "'$*'"
+    ./prog $*
+}
+
+while read -r
 do
-    printf "% 16s: " "'$arg'"
-    ./prog $arg 2>&1
-done | cmp -s /dev/stdin /dev/stderr 2<<EOT
+    args=$(echo "$REPLY" | cut -d"'" -f2)
+    [ "$REPLY" = "$(run "$args")" ] ||
+    {
+       echo "FAIL: '$REPLY'"
+       retval=1
+    }
+done <<!
               '': ./prog 0 args:
              '-': ./prog 1 args: '-'
             '--': ./prog 0 args:
             '-b': ./prog -b 0 args:
             '-f': ./prog -f(no arg) 0 args:
+           '-bf': ./prog -b -f(no arg) 0 args:
+           '-fb': ./prog -f(b) 0 args:
+           '-ff': ./prog -f(f) 0 args:
           '-f x': ./prog -f(x) 0 args:
            'arg': ./prog 1 args: 'arg'
           '- --': ./prog 2 args: '-' '--'
@@ -391,6 +227,6 @@ done | cmp -s /dev/stdin /dev/stderr 2<<EOT
      '--f x --b': ./prog badflag('-') -f(x) badflag('-') -b 0 args:
      '--f x --f': ./prog badflag('-') -f(x) badflag('-') -f(no arg) 0 args:
      '--f x arg': ./prog badflag('-') -f(x) 1 args: 'arg'
-EOT
+!
 
 # -fin-
