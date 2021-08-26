@@ -27,8 +27,9 @@
 
 /* The following files served as inspiration for the code below:
  *
- * - <git.suckless.org/st/file/arg.h.html>
- * - <git.suckless.org/farbfeld/file/arg.h.html>
+ * - <http://9p.io/sources/plan9/sys/include/libc.h>; last ~23 lines
+ * - <http://git.suckless.org/st/file/arg.h.html>
+ * - <http://git.suckless.org/farbfeld/file/arg.h.html>
  */
 
 #ifndef ARG_H
