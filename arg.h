@@ -18,37 +18,34 @@ extern char *argv0;
 	     && '\0' != (*argv)[1]; \
 	     argc--, argv++) { \
 		int _i, _used; \
+		char **_argv; \
 		if ('-' == (*argv)[1] \
 		    && '\0' == (*argv)[2]) { \
 			argc--, argv++; \
 			break; \
 		} \
-		for (_i = 1, _used = 0; \
-		     '\0' != (*argv)[_i]; \
+		for (_i = 1, _used = 0, _argv = argv; \
+		     '\0' != (*argv)[_i] \
+		     && 0 == _used; \
 		     _i++) { \
 			char _argc; \
+			if (_argv != argv) \
+				break; \
 			_argc = (*argv)[_i]; \
 			switch (_argc)
 #define ARGEND \
-			if (_used) { \
-				if ((*argv)[_i + 1]) { \
-					break; \
-				} else { \
-					argc--, argv++; \
-					break; \
-				} \
-			} \
 		} \
-	} \
+	}
 
 #define ARGC()  _argc
 
 #define ARGF_(expr) \
-	(((*argv)[_i + 1]) \
-	 ? (_used = 1, &((*argv)[_i + 1])) \
-	 : (*(argv + 1)) \
-	   ? (_used = 1, *(argv + 1)) \
-	   : (expr))
+	(('\0' == (*argv)[_i + 1] \
+	  && NULL == argv[1]) \
+	 ? (expr) \
+	 : (_used = 1, ('\0' != ((*argv)[_i + 1])) \
+	                ? (&(*argv)[_i + 1]) \
+	                : (argc--, argv++, *argv)))
 #define EARGF(x)  ARGF_(((x), exit(EXIT_FAILURE), (char *)NULL))
 #define ARGF()  ARGF_((char *)NULL)
 
