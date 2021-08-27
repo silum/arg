@@ -40,9 +40,8 @@ extern char *argv0;
 	for ((NULL != argv0 || (argv0 = *argv)), argv++, argc--; \
 	     NULL != argv[0] && '-' == argv[0][0] && '\0' != argv[0][1]; \
 	     argc--, argv++) { \
-		char *_args, *_argt; \
-		char _argc; \
-		_args = &argv[0][1]; \
+		char _argc, *_argt; \
+		char *_args = &argv[0][1]; \
 		if ('-' == _args[0] && '\0' == _args[1]) { \
 			argc--; argv++; break; \
 		} \
