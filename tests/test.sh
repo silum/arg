@@ -35,6 +35,7 @@ run() {
 
 while read -r
 do
+    printf .
     args=$(echo "$REPLY" | cut -d"'" -f2)
     [ "$REPLY" = "$(run "$args")" ] ||
     {
