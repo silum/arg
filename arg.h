@@ -28,51 +28,33 @@
 /* The following files served as inspiration for the code below:
  *
  * - <http://9p.io/sources/plan9/sys/include/libc.h>; last ~23 lines
- * - <http://git.suckless.org/st/file/arg.h.html>
- * - <http://git.suckless.org/farbfeld/file/arg.h.html>
  */
 
 #ifndef ARG_H
 #define ARG_H
 
+#define SET(x)  ((void)(x))
+#define USED(...)
+
 extern char *argv0;
+#define	ARGBEGIN	for((argv0||(argv0=*argv)),argv++,argc--;\
+			    argv[0] && argv[0][0]=='-' && argv[0][1];\
+			    argc--, argv++) {\
+				char *_args, *_argt;\
+				char _argc;\
+				_args = &argv[0][1];\
+				if(_args[0]=='-' && _args[1]==0){\
+					argc--; argv++; break;\
+				}\
+				_argc = 0;\
+				while(*_args && (_argc = *_args++))\
+				switch(_argc)
+#define	ARGEND		SET(_argt);USED(_argt,_argc,_args);}USED(argv, argc);
+#define	ARGF()		(_argt=_args, _args="",\
+				(*_argt? _argt: argv[1]? (argc--, *++argv): 0))
+#define	EARGF(x)	(_argt=_args, _args="",\
+				(*_argt? _argt: argv[1]? (argc--, *++argv): ((x), exit(EXIT_FAILURE), (char*)0)))
 
-#define ARGBEGIN \
-	for (argv0 = *argv, argc--, argv++; \
-	     NULL != *argv \
-	     && '-' == argv[0][0] \
-	     && '\0' != argv[0][1]; \
-	     argc--, argv++) { \
-		int _i, _used; \
-		char **_argv; \
-		if ('-' == argv[0][1] \
-		    && '\0' == argv[0][2]) { \
-			argc--, argv++; \
-			break; \
-		} \
-		for (_i = 1, _used = 0, _argv = argv; \
-		     '\0' != argv[0][_i] \
-		     && 0 == _used; \
-		     _i++) { \
-			char _argc; \
-			if (_argv != argv) \
-				break; \
-			_argc = argv[0][_i]; \
-			switch (_argc)
-#define ARGEND \
-		} \
-	}
-
-#define ARGC()  _argc
-
-#define ARGF_(expr) \
-	(('\0' == argv[0][_i + 1] \
-	  && NULL == argv[1]) \
-	 ? (expr) \
-	 : (_used = 1, ('\0' != (argv[0][_i + 1])) \
-	                ? (&argv[0][_i + 1]) \
-	                : (argc--, argv++, *argv)))
-#define EARGF(x)  ARGF_(((x), exit(EXIT_FAILURE), (char *)NULL))
-#define ARGF()  ARGF_((char *)NULL)
+#define	ARGC()		_argc
 
 #endif  /* ARG_H */
