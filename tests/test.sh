@@ -33,6 +33,17 @@ run() {
     ./prog $*
 }
 
+for t in test_argv0_set test_argv0_unset
+do
+    printf .
+    ./$t 2> /dev/null ||
+    {
+        echo "FAIL: $t"
+        retval=1
+    }
+done
+
+# prog
 while read -r
 do
     printf .

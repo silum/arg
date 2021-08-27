@@ -1,8 +1,10 @@
 BIN =
 
 VPATH = tests
-TESTS = prog
+TESTS = prog test_argv0_set test_argv0_unset
 prog: prog.o
+test_argv0_set: test_argv0_set.o
+test_argv0_unset: test_argv0_unset.o
 
 CFLAGS += -std=c99 -Wall -Wextra -Wpedantic
 CPPFLAGS += -I.
