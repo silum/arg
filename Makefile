@@ -1,13 +1,18 @@
-BIN = prog
-CFLAGS += -std=c99 -Wall -Wextra -Wpedantic
+BIN =
 
+VPATH = tests
+TESTS = prog
 prog: prog.o
+
+CFLAGS += -std=c99 -Wall -Wextra -Wpedantic
+CPPFLAGS += -I.
 
 .PHONY: all
 all: $(BIN)
 
-check: prog
-	@./test.sh
+.PHONY: check
+check: tests/test.sh $(TESTS)
+	@./$<
 	@echo
 	@echo ================
 	@echo all tests passed
@@ -15,7 +20,7 @@ check: prog
 
 .PHONY: clean
 clean:
-	$(RM) -- $(BIN) *.o *.d
+	$(RM) -- $(BIN) $(TESTS) *.o *.d
 
 .PHONY: distclean
 distclean: clean
